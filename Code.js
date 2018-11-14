@@ -1,7 +1,7 @@
 var TEMPLATE_NAME = 'Template';
 
-var PURCHASE_START_ROW = 16;
-var INVOICE_START_ROW = 11;
+var PURCHASE_START_ROW = 17;
+var INVOICE_START_ROW = 12;
 
 var ITEM_START_COLUMN = 'A';
 var ITEM_END_COLUMN = 'E';
@@ -15,9 +15,10 @@ var USD_AMOUNT_INDEX = 2;
 var EUR_AMOUNT_INDEX = 3;
 var INVOICE_ITEMS_INDEX = 4;
 var PURCHASE_ITEMS_INDEX = 5;
+var SUBMITTER_INDEX = 6;
 
-var SUMMARY_RANGE = 'C1:C2';
-var ACTUAL_RANGE = 'B6:C6';
+var SUMMARY_RANGE = 'C1:C3';
+var ACTUAL_RANGE = 'B7:C7';
 
 function sheetName(timestamp, date) {
   return date.toString() + ' ' + (new Date(timestamp)).getTime();
@@ -53,11 +54,13 @@ function onFormSubmit(params) {
   var eurAmount = values[EUR_AMOUNT_INDEX];
   var invoiceItems = values[INVOICE_ITEMS_INDEX];
   var purchaseItems = values[PURCHASE_ITEMS_INDEX];
+  var submitter = values[SUBMITTER_INDEX];
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var template = ss.getSheetByName(TEMPLATE_NAME);
   var s = ss.insertSheet(sheetName(timestamp, date), 0, {template: template});
   s.getRange(SUMMARY_RANGE).setValues([
     [date],
+    [submitter],
     [timestamp],
   ]);
   s.getRange(ACTUAL_RANGE).setValues([
